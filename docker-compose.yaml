@@ -1,0 +1,15 @@
+version: "3.7" # Schema version dari Docker Compose
+services: # Service yang dibuat
+  item-app: # Service aplikasi berupa function
+    image: dzzlr/item-app:v1 # Mengambil image yang sudah di publish dari Docker Hub
+    ports: # Mengekspos port untuk host dan container
+      - 80:8080
+    depends_on: # Memastikan service item-app hanya akan berjalan setelah service item-db diluncurkan
+      - item-db
+    restart: always # Menambahkan restart policy
+  item-db: # Service aplikasi untuk penyimpanan database
+    image: mongo:3 # Mengambil image MongoDB dari Docker Hub
+    volumes: # Menggunakan volume untuk memasangnya pada directory
+      - app-db:/data/db 
+volumes: # Membuat volume baru yang akan digunakan oleh MongoDB
+  app-db:
