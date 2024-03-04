@@ -35,6 +35,7 @@ jobs:
         run: go test -v -short --count=1 $(go list ./...)
 
   build-app-karsajobs:
+    needs: test-app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
