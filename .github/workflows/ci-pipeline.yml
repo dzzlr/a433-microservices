@@ -6,7 +6,7 @@ on:
 
 env:
   USERNAME: ${{ github.actor }}
-  IMAGE_NAME: karsajobs-backend
+  IMAGE_NAME: karsajobs
   
 jobs:
   lint-dockerfile:
