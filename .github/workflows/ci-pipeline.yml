@@ -6,7 +6,7 @@ on:
 
 env:
   USERNAME: ${{ github.actor }}
-  REPOSITORY_NAME: ${{ github.repository }}
+  IMAGE_NAME: karsajobs-backend
   
 jobs:
   lint-dockerfile:
@@ -49,5 +49,5 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t ghcr.io/$REPOSITORY_NAME:latest .
-          docker push ghcr.io/$REPOSITORY_NAME:latest
+          docker build -t ghcr.io/$USERNAME/$IMAGE_NAME:latest .
+          docker push ghcr.io/$USERNAME/$IMAGE_NAME:latest
