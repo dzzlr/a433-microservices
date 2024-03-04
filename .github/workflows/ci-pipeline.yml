@@ -2,7 +2,7 @@ name: CI Pipeline Karsajobs-UI
 
 on:
   push:
-    branches: [ "karsajobs" ]
+    branches: [ "karsajobs-ui" ]
 
 env:
   USERNAME: ${{ github.actor }}
