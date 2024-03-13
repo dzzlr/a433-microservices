@@ -1,0 +1,15 @@
+apiVersion: v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: Service # jenis resource yang didefinisikan
+metadata:
+  labels:
+    app: karsajobs-backend # label pod
+  name: karsajobs-backend # nama pod
+spec: # menspesifikasikan resource
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30001
+  selector: # Service akan mengidentifikasi Pod mana saja yang memiliki label
+    app: karsajobs-backend # label pod
+  type: NodePort # mengekspos Service pada IP internal di Cluster

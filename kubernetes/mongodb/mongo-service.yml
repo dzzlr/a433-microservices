@@ -1,0 +1,13 @@
+apiVersion: v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: Service # jenis resource yang didefinisikan
+metadata:
+  name: mongo # nama pod
+  labels:
+    app: mongo # label pod
+spec: # menspesifikasikan resource
+  ports:
+    - port: 27017 # resource berjalan pada port
+  selector: # menarget Pod yang kita buat sebelumnya
+    app: mongo # menarget Pod yang kita buat sebelumnya
+    tier: backend
+  clusterIP: None

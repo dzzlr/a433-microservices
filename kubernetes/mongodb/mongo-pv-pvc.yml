@@ -1,0 +1,29 @@
+apiVersion: v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: PersistentVolume # jenis resource yang didefinisikan
+metadata:
+  name: mongo-pv # nama volume
+  labels:
+    type: local # menentukan tipe volume
+spec: # menentukan beberapa spesifikasi
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/db"
+    # path: "/mnt/data/mongo"
+---
+apiVersion: v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: PersistentVolumeClaim # jenis resource yang didefinisikan
+metadata:
+  name: mongo-pvc # nama volume
+  labels:
+    app: mongo
+spec: # menentukan beberapa spesifikasi
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

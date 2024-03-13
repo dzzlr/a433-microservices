@@ -1,0 +1,25 @@
+apiVersion: apps/v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: Deployment # jenis resource yang didefinisikan
+metadata:
+  name: karsajobs-frontend # nama pod
+  labels:
+    app: karsajobs-frontend # label pod
+spec:
+  replicas: 1 # menspesifikasikan resource
+  selector: # menarget Pod yang kita buat sebelumnya
+    matchLabels:
+      app: karsajobs-frontend # label pod
+  template:
+    metadata:
+      name: karsajobs-frontend # nama pod
+      labels:
+        app: karsajobs-frontend # label pod
+    spec: # menspesifikasikan resource
+      containers:
+        - name: karsajobs-frontend # nama pod
+          image: ghcr.io/dzzlr/karsajobs-ui # melakukan pull image dari github container registry
+          ports:
+            - containerPort: 8000 # konfigurasi app berjalan pada port
+          env: # konfigurasi nilai env 
+            - name: VUE_APP_BACKEND
+              value: http://192.168.49.2:30001

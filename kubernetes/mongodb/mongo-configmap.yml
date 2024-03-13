@@ -1,0 +1,8 @@
+apiVersion: v1  # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: ConfigMap # jenis resource yang didefinisikan
+metadata:
+  name: mongo-configmap # nama pod
+data: # berisi string multiline (ditandai dengan “|”) berupa konfigurasi untuk db
+  mongo.conf: |
+    storage:
+      dbPath: /data/db

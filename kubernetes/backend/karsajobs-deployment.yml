@@ -1,0 +1,36 @@
+apiVersion: apps/v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: Deployment # jenis resource yang didefinisikan
+metadata:
+  name: karsajobs-backend # nama pod
+  labels:
+    app: karsajobs-backend # label pod
+spec:
+  replicas: 1 # menspesifikasikan resource
+  selector:
+    matchLabels:
+      app: karsajobs-backend # label pod
+  template:
+    metadata:
+      labels:
+        app: karsajobs-backend # label pod
+    spec: # menspesifikasikan resource
+      containers:
+        - name: karsajobs-backend # nama pod
+          image: ghcr.io/dzzlr/karsajobs # melakukan pull image dari github container registry
+          ports:
+            - containerPort: 8080 # konfigurasi mongo user
+          env:
+            - name: APP_PORT # konfigurasi app berjalan pada port
+              value: "8080"
+            - name: MONGO_HOST # konfigurasi mongo host
+              value: "mongo"
+            - name: MONGO_USER # konfigurasi mongo user
+              valueFrom: # mengambil nilai dari berkas
+                secretKeyRef: # konfigurasi untuk referensi file secret
+                  name: mongo-secret # mengambil data dari berkas
+                  key: MONGO_ROOT_USERNAME # mengambil value dari key dari dalam berkas
+            - name: MONGO_PASS # konfigurasi mongo password
+              valueFrom: # mengambil nilai dari berkas
+                secretKeyRef: # konfigurasi untuk referensi file secret
+                  name: mongo-secret # mengambil data dari berkas
+                  key: MONGO_ROOT_PASSWORD # mengambil value dari key dari dalam berkas

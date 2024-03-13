@@ -1,0 +1,53 @@
+apiVersion: apps/v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
+kind: StatefulSet # jenis resource yang didefinisikan
+metadata: 
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  replicas: 1 # menspesifikasikan resource
+  selector: # menarget Pod yang kita buat sebelumnya
+    matchLabels:
+      app: mongo
+      tier: backend
+  serviceName: mongo
+  minReadySeconds: 10
+  template:
+    metadata:
+      name: mongo
+      labels:
+        app: mongo
+        tier: backend
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongo # nama container
+        image: mongo:latest # melakukan pull image dari docker hub
+        env: # konfigurasi environment
+        - name: MONGO_INITDB_ROOT_USERNAME_FILE
+          value: "/etc/mongo-credentials/MONGO_ROOT_USERNAME"
+        - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+          value: "/etc/mongo-credentials/MONGO_ROOT_PASSWORD"
+        ports:
+        - containerPort: 27017 # app berjalan pada port
+          name: mongo
+        volumeMounts:
+        - name: mongo-pv # mengambil berkas persistent volume
+          mountPath: /data/db
+        - name: mongo-configmap # mengambil berkas config map
+          mountPath: /config
+        - name: mongo-secret # mengambil berkas secret
+          mountPath: /etc/mongo-credentials
+      volumes: # konfigurasi nilai volumen
+      - name: mongo-pv  # mengambil berkas persistent volume
+        persistentVolumeClaim:
+          claimName: mongo-pvc  # mengambil berkas persistent volume claim
+      - name: mongo-configmap # mengambil berkas config map
+        configMap:
+          name: mongo-configmap # mengambil berkas config map
+          items:
+          - key: mongo.conf
+            path: mongo.conf
+      - name: mongo-secret # mengambil berkas secret
+        secret:
+          secretName: mongo-secret
