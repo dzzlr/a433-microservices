@@ -20,7 +20,7 @@ jobs:
         with:
           dockerfile: Dockerfile
 
-  build-app-karsajobs:
+  build-app:
     needs: lint-dockerfile
     runs-on: ubuntu-latest
     steps:
