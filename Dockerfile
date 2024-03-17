@@ -1,8 +1,8 @@
-FROM node:14-alpine
-WORKDIR /app
+FROM node:18-alpine
+WORKDIR /src
 COPY package*.json ./
-RUN npm install
-COPY . .
+RUN npm ci
+COPY ./*.js ./
 
 ENV PORT=3001
 EXPOSE 3001
