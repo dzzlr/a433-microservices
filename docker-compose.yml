@@ -1,0 +1,47 @@
+version: "3.2" # Schema version
+services: # Service yang akan berjalan
+  rabbitmq: # RabbitMQ Service
+    image: rabbitmq:3.11-management # Image RabbitMQ
+    container_name: 'rabbitmq_container' # Nama container
+    ports: # Konfigurasi port serta port-forwarding yang akan digunakan
+      - 5673:5672
+      - 15673:15672
+    volumes: # Attach dan konfigurasi volume untuk menyimpan data
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq
+    networks: # Attach konfigurasi network
+      - rabbitmq_network
+  order-service: # Order Service
+    image: "ghcr.io/dzzlr/order-service:latest" # Image order-service
+    container_name: 'order_service_container' # Nama container
+    ports: # Konfigurasi port serta port-forwarding yang akan digunakan
+      - 3000:3000
+    volumes: # Setup konfigurasi volume untuk menyimpan data
+      - .:/src
+    depends_on: # Service akan berjalan jika service RabbitMQ sudah berjalan
+      - "rabbitmq"
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- npm start' # Menjalankan script untuk menunggu RabbitMQ sudah siap
+    environment: # Setup env
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672 # Menambahkan nilai env
+    networks: # Attach konfigurasi network
+      - rabbitmq_network
+  shipping-service: # Shipping Service
+    image: "ghcr.io/dzzlr/shipping-service:latest" # Image shipping-service
+    container_name: 'shipping_service_container' # Nama container
+    ports: # Konfigurasi port serta port-forwarding yang akan digunakan
+      - 3001:3001
+    volumes: # Setup konfigurasi volume untuk menyimpan data
+      - .:/src
+    depends_on: # Service akan berjalan jika service RabbitMQ sudah berjalan
+      - "rabbitmq"
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- npm start' # Menjalankan script untuk menunggu RabbitMQ sudah siap
+    environment: # Setup env
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672 # Menambahkan nilai env
+    networks: # Attach konfigurasi network
+      - rabbitmq_network
+volumes: # Setup volume data queue dan log takkan hilang saat restart
+  rabbitmq_data:
+  rabbitmq_log:
+networks: # Setup network
+  rabbitmq_network: # Nama network
+    driver: bridge # Digunakan untuk mengirim (produce) dan mengambil (consumer) message dari queue
