@@ -21,7 +21,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Add("Content-type", "text/plain")
-	w.Write([]byte("Up!"))
+	w.Write([]byte("Up!!"))
 }
 
 func (app *application) getJobs(w http.ResponseWriter, r *http.Request) {
