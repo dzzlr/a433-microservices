@@ -22,4 +22,4 @@ spec:
             - containerPort: 8000 # konfigurasi app berjalan pada port
           env: # konfigurasi nilai env 
             - name: VUE_APP_BACKEND
-              value: http://karsajobs-backend:3000
+              value: http://karsajobs-backend:8080
