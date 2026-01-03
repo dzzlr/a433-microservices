@@ -2,11 +2,12 @@ apiVersion: v1 # versi API inti yang berisi banyak resource paling umum seperti 
 kind: Service # jenis resource yang didefinisikan
 metadata:
   labels:
-    app: karsajobs-frontend # label pod
-  name: karsajobs-frontend # nama pod
+    app: karsajobs-ui # label pod
+  name: karsajobs-ui # nama pod
 spec: # menspesifikasikan resource
   ports:
     - port: 8000
   selector: # Service akan mengidentifikasi Pod mana saja yang memiliki label
-    app: karsajobs-frontend # label pod
+    app: karsajobs-ui # label pod
+
   type: NodePort # mengekspos Service pada port yang sama dari setiap Node yang dipilih di Cluster menggunakan NAT
