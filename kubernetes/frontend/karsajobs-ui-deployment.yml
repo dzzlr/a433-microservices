@@ -14,10 +14,6 @@ spec:
       name: karsajobs-ui # nama pod
       labels:
         app: karsajobs-ui # label pod
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
     spec: # menspesifikasikan resource
       containers:
         - name: karsajobs-ui # nama pod
@@ -27,4 +23,5 @@ spec:
           env: # konfigurasi nilai env 
             - name: VUE_APP_BACKEND
               value: /api
+
 
