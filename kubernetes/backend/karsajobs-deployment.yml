@@ -13,10 +13,6 @@ spec:
     metadata:
       labels:
         app: karsajobs-backend # label pod
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
     spec: # menspesifikasikan resource
       containers:
         - name: karsajobs-backend # nama pod
@@ -38,4 +34,5 @@ spec:
                 secretKeyRef: # konfigurasi untuk referensi file secret
                   name: mongo-secret # mengambil data dari berkas
                   key: MONGO_ROOT_PASSWORD # mengambil value dari key dari dalam berkas
+
 
