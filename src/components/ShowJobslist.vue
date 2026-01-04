@@ -1,7 +1,7 @@
 <template>
   <div id="show-jobs-list">
                 <header class="mb-10">
-                    <div class="text-center font-bold text-4xl text-gray-500 py-4">Karsa Jobs V2</div>
+                    <div class="text-center font-bold text-4xl text-gray-500 py-4">Karsa Jobs V1.1</div>
                     <div class="text-center">Search jobs near you.</div>
                 </header>
                 <div class="border border-red-500 rounded flex mb-10">
