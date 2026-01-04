@@ -15,23 +15,16 @@ spec:
       serviceAccountName: prometheus
       containers:
       - name: prometheus
-        image: prom/prometheus:v2.49.1
+        image: prom/prometheus:v2.52.0
         args:
           - "--config.file=/etc/prometheus/prometheus.yml"
           - "--storage.tsdb.retention.time=3d"
         ports:
-        - containerPort: 9090
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "300m"
-            memory: "256Mi"
+          - containerPort: 9090
         volumeMounts:
-        - name: config
-          mountPath: /etc/prometheus
+          - name: config
+            mountPath: /etc/prometheus
       volumes:
-      - name: config
-        configMap:
-          name: prometheus-config
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
