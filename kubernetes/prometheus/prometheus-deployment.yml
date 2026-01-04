@@ -25,6 +25,6 @@ spec:
           - name: config
             mountPath: /etc/prometheus
       volumes:
-        - name: prometheus-config
+        - name: config
           configMap:
             name: prometheus-config
