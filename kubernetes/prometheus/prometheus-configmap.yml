@@ -6,27 +6,10 @@ data:
   prometheus.yml: |
     global:
       scrape_interval: 15s
-
     scrape_configs:
-      # scrape metrics dari kubelet (CPU/Memory/Disk)
-      - job_name: 'kubelet-cadvisor'
-        kubernetes_sd_configs:
-          - role: node
-        metrics_path: /metrics/cadvisor
-        scheme: http
-        relabel_configs:
-          - source_labels: [__address__]
-            regex: '(.*):10250'
-            replacement: '${1}:10250'
-            target_label: __address__
-
-      # scrape pods untuk container metrics (CPU, memory, disk)
-      - job_name: 'karsajobs-containers'
+      - job_name: 'karsajobs'
         kubernetes_sd_configs:
           - role: pod
             namespaces:
-              names: [karsajobs]
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_pod_container_name]
-            action: keep
-            regex: .+
+              names:
+                - karsajobs
