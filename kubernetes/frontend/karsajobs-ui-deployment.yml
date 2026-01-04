@@ -17,11 +17,12 @@ spec:
     spec: # menspesifikasikan resource
       containers:
         - name: karsajobs-ui # nama pod
-          image: ghcr.io/dzzlr/karsajobs-ui:eaddc6d # melakukan pull image dari github container registry
+          image: ghcr.io/dzzlr/karsajobs-ui:27a024b # melakukan pull image dari github container registry
           ports:
             - containerPort: 8000 # konfigurasi app berjalan pada port
           env: # konfigurasi nilai env 
             - name: VUE_APP_BACKEND
               value: /api
+
 
 
