@@ -12,15 +12,12 @@ spec:
       labels:
         app: kube-state-metrics
     spec:
+      serviceAccountName: kube-state-metrics
       containers:
         - name: kube-state-metrics
-          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.17.0
+          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.0
+          args:
+            - --port=8080
+            - --resources=pods,nodes,namespaces,services,deployments,daemonsets,statefulsets,replicasets
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "64Mi"
-            limits:
-              cpu: "100m"
-              memory: "128Mi"
