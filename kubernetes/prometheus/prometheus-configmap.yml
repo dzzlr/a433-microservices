@@ -10,19 +10,10 @@ data:
       - job_name: "kube-state-metrics"
         static_configs:
           - targets: ["kube-state-metrics.monitoring.svc.cluster.local:8080"]
-      - job_name: "kubelet"
-        scheme: https
-        tls_config:
-          insecure_skip_verify: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      - job_name: 'k8s-metrics-server'
+        metrics_path: /metrics
         kubernetes_sd_configs:
-        - role: node
-        relabel_configs:
-        - action: replace
-          source_labels: [__meta_kubernetes_node_address_InternalIP]
-          target_label: __address__
-          replacement: $1:10250
-        metric_relabel_configs:
-        - source_labels: [__name__]
-          regex: "container_fs_.*|container_network_.*"
-          action: drop
+          - role: pod
+            namespaces:
+              names:
+                - kube-system
