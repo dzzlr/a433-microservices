@@ -16,4 +16,4 @@ data:
           - role: pod
             namespaces:
               names:
-                - kube-system
+                - karsajobs
