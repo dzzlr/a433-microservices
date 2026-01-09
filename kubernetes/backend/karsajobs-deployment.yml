@@ -5,7 +5,7 @@ metadata:
   labels:
     app: karsajobs-backend # label pod
 spec:
-  replicas: 1 # menspesifikasikan resource
+  replicas: 2 # menspesifikasikan resource
   selector:
     matchLabels:
       app: karsajobs-backend # label pod
@@ -34,5 +34,6 @@ spec:
                 secretKeyRef: # konfigurasi untuk referensi file secret
                   name: mongo-secret # mengambil data dari berkas
                   key: MONGO_ROOT_PASSWORD # mengambil value dari key dari dalam berkas
+
 
 
