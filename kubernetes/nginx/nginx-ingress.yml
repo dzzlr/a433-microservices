@@ -9,6 +9,7 @@ spec:
   rules:
   - http:
       paths:
+      - host: karsajobs.local
       - path: /
         pathType: Prefix
         backend:
