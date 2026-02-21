@@ -23,6 +23,3 @@ spec:
           env: # konfigurasi nilai env 
             - name: VUE_APP_BACKEND
               value: /api
-
-
-
