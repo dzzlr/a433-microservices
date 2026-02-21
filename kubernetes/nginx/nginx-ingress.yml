@@ -2,6 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: karsajobs-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-strip-api@kubernetescrd
 spec:
   ingressClassName: traefik
   rules:
