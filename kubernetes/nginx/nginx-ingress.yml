@@ -7,9 +7,9 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
+  - host: karsajobs.local
   - http:
       paths:
-      - host: karsajobs.local
       - path: /
         pathType: Prefix
         backend:
