@@ -34,6 +34,3 @@ spec:
                 secretKeyRef: # konfigurasi untuk referensi file secret
                   name: mongo-secret # mengambil data dari berkas
                   key: MONGO_ROOT_PASSWORD # mengambil value dari key dari dalam berkas
-
-
-
