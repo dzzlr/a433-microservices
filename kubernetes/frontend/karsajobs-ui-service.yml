@@ -10,4 +10,3 @@ spec: # menspesifikasikan resource
   selector: # Service akan mengidentifikasi Pod mana saja yang memiliki label
     app: karsajobs-ui # label pod
   type: ClusterIP # mengekspos Service pada port yang sama dari setiap Node yang dipilih di Cluster menggunakan NAT
-
