@@ -3,10 +3,9 @@ kind: Service
 metadata:
   name: karsajobs-nginx
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: karsajobs-nginx
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30000
