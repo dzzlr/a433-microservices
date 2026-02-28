@@ -1,36 +1,38 @@
-apiVersion: apps/v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
-kind: Deployment # jenis resource yang didefinisikan
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: karsajobs-backend # nama pod
-  labels:
-    app: karsajobs-backend # label pod
+  name: karsajobs-backend
 spec:
-  replicas: 2 # menspesifikasikan resource
+  replicas: 2
   selector:
     matchLabels:
-      app: karsajobs-backend # label pod
+      app: karsajobs-backend
   template:
     metadata:
       labels:
-        app: karsajobs-backend # label pod
-    spec: # menspesifikasikan resource
+        app: karsajobs-backend
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "karsajobs-role"
+        vault.hashicorp.com/agent-inject-secret-mongo: "karsajobs/data/mongo"
+        vault.hashicorp.com/agent-inject-template-mongo: |
+          {{- with secret "karsajobs/data/mongo" -}}
+          export MONGO_ROOT_USERNAME="{{ .Data.data.MONGO_ROOT_USERNAME }}"
+          export MONGO_ROOT_PASSWORD="{{ .Data.data.MONGO_ROOT_PASSWORD }}"
+          {{- end }}
+    spec:
+      serviceAccountName: karsajobs-backend-sa
       containers:
-        - name: karsajobs-backend # nama pod
-          image: ghcr.io/dzzlr/karsajobs # melakukan pull image dari github container registry
+        - name: karsajobs-backend
+          image: ghcr.io/dzzlr/karsajobs
           ports:
-            - containerPort: 8080 # konfigurasi mongo user
+            - containerPort: 8080
           env:
-            - name: APP_PORT # konfigurasi app berjalan pada port
+            - name: APP_PORT
               value: "8080"
-            - name: MONGO_HOST # konfigurasi mongo host
+            - name: MONGO_HOST
               value: "mongo"
-            - name: MONGO_USER # konfigurasi mongo user
-              valueFrom: # mengambil nilai dari berkas
-                secretKeyRef: # konfigurasi untuk referensi file secret
-                  name: mongo-secret # mengambil data dari berkas
-                  key: MONGO_ROOT_USERNAME # mengambil value dari key dari dalam berkas
-            - name: MONGO_PASS # konfigurasi mongo password
-              valueFrom: # mengambil nilai dari berkas
-                secretKeyRef: # konfigurasi untuk referensi file secret
-                  name: mongo-secret # mengambil data dari berkas
-                  key: MONGO_ROOT_PASSWORD # mengambil value dari key dari dalam berkas
+          command:
+            ["/bin/sh"]
+          args:
+            ["-c", "source /vault/secrets/mongo && ./app"]
