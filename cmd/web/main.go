@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	vault "github.com/hashicorp/vault/api"
 	"github.com/nothinux/karsajobs/pkg/models/mongodb"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -44,8 +45,52 @@ func main() {
 	}
 }
 
+func getMongoCredential() (string, string, error) {
+	config := vault.DefaultConfig()
+	config.Address = os.Getenv("VAULT_ADDR")
+
+	client, err := vault.NewClient(config)
+	if err != nil {
+		return "", "", err
+	}
+
+	// Kubernetes auth
+	jwt, err := os.ReadFile("/var/run/secrets/kubernetes.io/serviceaccount/token")
+	if err != nil {
+		return "", "", err
+	}
+
+	loginData := map[string]interface{}{
+		"role": "karsajobs-role",
+		"jwt":  string(jwt),
+	}
+
+	resp, err := client.Logical().Write("auth/kubernetes/login", loginData)
+	if err != nil {
+		return "", "", err
+	}
+
+	client.SetToken(resp.Auth.ClientToken)
+
+	// Request dynamic DB credential
+	secret, err := client.Logical().Read("database/creds/karsajobs-role")
+	if err != nil {
+		return "", "", err
+	}
+
+	username := secret.Data["username"].(string)
+	password := secret.Data["password"].(string)
+
+	return username, password, nil
+}
+
 func openDB() (*mongo.Client, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:27017/?authsource=admin", os.Getenv("MONGO_USER"), os.Getenv("MONGO_PASS"), os.Getenv("MONGO_HOST"))))
+	user, pass, err := getMongoCredential()
+	if err != nil {
+		return nil, err
+	}
+
+	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:27017/?authsource=admin", user, pass, os.Getenv("MONGO_HOST"))))
 	if err != nil {
 		return nil, err
 	}
