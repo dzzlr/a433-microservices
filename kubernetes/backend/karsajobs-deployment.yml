@@ -14,11 +14,11 @@ spec:
       annotations:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "karsajobs-role"
-        vault.hashicorp.com/agent-inject-secret-mongo: "karsajobs/data/mongo"
-        vault.hashicorp.com/agent-inject-template-mongo: |
+        vault.hashicorp.com/agent-inject-secret-mongo.env: "karsajobs/data/mongo"
+        vault.hashicorp.com/agent-inject-template-mongo.env: |
           {{- with secret "karsajobs/data/mongo" -}}
-          export MONGO_ROOT_USERNAME="{{ .Data.data.MONGO_ROOT_USERNAME }}"
-          export MONGO_ROOT_PASSWORD="{{ .Data.data.MONGO_ROOT_PASSWORD }}"
+          MONGO_ROOT_USERNAME={{ .Data.data.MONGO_ROOT_USERNAME }}
+          MONGO_ROOT_PASSWORD={{ .Data.data.MONGO_ROOT_PASSWORD }}
           {{- end }}
     spec:
       serviceAccountName: karsajobs-backend-sa
@@ -32,3 +32,4 @@ spec:
               value: "8080"
             - name: MONGO_HOST
               value: "mongo"
+
