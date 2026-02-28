@@ -14,7 +14,7 @@ spec:
       annotations:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "karsajobs-role"
-        vault.hashicorp.com/agent-inject-secret-mongo.env: "karsajobs/data/mongo"
+        vault.hashicorp.com/agent-inject-secret-mongo: "karsajobs/data/mongo"
         vault.hashicorp.com/agent-inject-template-mongo: |
           {{- with secret "karsajobs/data/mongo" -}}
           MONGO_ROOT_USERNAME={{ .Data.data.MONGO_ROOT_USERNAME }}
@@ -32,5 +32,6 @@ spec:
               value: "8080"
             - name: MONGO_HOST
               value: "mongo"
+
 
 
