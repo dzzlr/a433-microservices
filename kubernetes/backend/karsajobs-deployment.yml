@@ -32,7 +32,3 @@ spec:
               value: "8080"
             - name: MONGO_HOST
               value: "mongo"
-          command:
-            ["/bin/sh"]
-          args:
-            ["-c", "source /vault/secrets/mongo && ./app"]
