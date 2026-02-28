@@ -1,6 +1,6 @@
 module github.com/nothinux/karsajobs
 
-go 1.15
+go 1.23
 
 require (
 	github.com/go-chi/chi v1.5.1
