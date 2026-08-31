@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: karsajobs-nginx
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: karsajobs-nginx
   ports:
