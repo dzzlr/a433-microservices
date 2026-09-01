@@ -11,7 +11,8 @@ spec: # menentukan beberapa spesifikasi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/data/db"
+    path: "/var/mnt/mongo-db"
+    # path: "/data/db"
     # path: "/mnt/data/mongo"
 ---
 apiVersion: v1 # versi API inti yang berisi banyak resource paling umum seperti Pod dan Node
