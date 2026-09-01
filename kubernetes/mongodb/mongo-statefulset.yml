@@ -33,7 +33,7 @@ spec:
           name: mongo
         volumeMounts:
         - name: mongo-pv # mengambil berkas persistent volume
-          mountPath: /data/db
+          mountPath: /var/mnt/mongo-db
         - name: mongo-configmap # mengambil berkas config map
           mountPath: /config
         - name: mongo-secret # mengambil berkas secret
