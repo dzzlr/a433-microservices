@@ -22,7 +22,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: mongo # nama container
-        image: mongo:latest # melakukan pull image dari docker hub
+        image: mongo:7.0 # pinned to 7.x — avoids kernel 6.19+ TCMalloc crash bug in 8.x
         env: # konfigurasi environment
         - name: MONGO_INITDB_ROOT_USERNAME_FILE
           value: "/etc/mongo-credentials/MONGO_ROOT_USERNAME"
