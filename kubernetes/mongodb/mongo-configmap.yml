@@ -5,4 +5,4 @@ metadata:
 data: # berisi string multiline (ditandai dengan “|”) berupa konfigurasi untuk db
   mongo.conf: |
     storage:
-      dbPath: /data/db
+      dbPath: /var/mnt/mongo-db
